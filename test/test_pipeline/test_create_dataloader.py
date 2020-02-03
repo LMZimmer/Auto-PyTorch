@@ -36,10 +36,10 @@ class TestCreateDataLoader(unittest.TestCase):
         result = create_dataloader_node.fit(pipeline_config, hyperparameter_config, X, y, train_indices, valid_indices)
         train_loader, valid_loader, batch_size = result["train_loader"], result["valid_loader"], result["batch_size"]
 
-        assert batch_size == 2
+        self.assertEqual(batch_size, 2)
         for step, (input, target) in enumerate(train_loader):
-            assert len(input) == len(target) == batch_size
+            self.assertEqual(len(input), len(target), batch_size)
         
         for step, (input, target) in enumerate(valid_loader):
-            assert len(input) == len(target) == batch_size
+            self.assertEqual(len(input), len(target), batch_size)
         
