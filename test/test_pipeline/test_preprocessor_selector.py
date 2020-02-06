@@ -15,41 +15,41 @@ from scipy.sparse import issparse
 
 class TestPreprocessorSelector(unittest.TestCase):
     def test_preprocessor_selector(self):
-X = np.array([[1, 2, 5], 
-            [1.1, 1.2, 1.3], 
-            [3, 5, 7], 
-            [2, 4, 5], 
-            [4, 5, 6],
-            [-1, -3, -2]])
-train_indices = np.array([0, 3, 4])
-valid_indices = np.array([1, 2, 5])
-y = np.array([1, 0, 0, 1, 0, 1])
-preprocessor_dict = {
-    # "fast_ica": FastICA, 
-    # "kernel_pca":KernelPCA, 
-    # "kitchen_sinks":RandomKitchenSinks,
-    # "nystroem":Nystroem, 
-    # "polynomial_features":PolynomialFeatures,
-    # "power_transformer":PowerTransformer, 
-    "truncated_svd":TruncatedSVD
-    }
-pipeline = Pipeline([
-    PreprocessorSelector()
-])            
-with open('test/test_pipeline/hyperparameter_config.json', 'r') as fh:
-    json_string = fh.read()     
-    full_hyperparameter_config = json.read(json_string)
+        X = np.array([[1, 2, 5], 
+                    [1.1, 1.2, 1.3], 
+                    [3, 5, 7], 
+                    [2, 4, 5], 
+                    [4, 5, 6],
+                    [-1, -3, -2]])
+        train_indices = np.array([0, 3, 4])
+        valid_indices = np.array([1, 2, 5])
+        y = np.array([1, 0, 0, 1, 0, 1])
+        preprocessor_dict = {
+            # "fast_ica": FastICA, 
+            # "kernel_pca":KernelPCA, 
+            # "kitchen_sinks":RandomKitchenSinks,
+            # "nystroem":Nystroem, 
+            # "polynomial_features":PolynomialFeatures,
+            # "power_transformer":PowerTransformer, 
+            "truncated_svd":TruncatedSVD
+            }
+        pipeline = Pipeline([
+            PreprocessorSelector()
+        ])            
+        with open('test/test_pipeline/hyperparameter_config.json', 'r') as fh:
+            json_string = fh.read()     
+            full_hyperparameter_config = json.read(json_string)
 
-for key, value in preprocessor_dict.items():
-    selector = pipeline[PreprocessorSelector().get_name()]
-    selector.add_preprocessor(key, value)
-    hyperparameter_config = full_hyperparameter_config.sample_configuration()
-    
-    pipeline_config = dict()
-    pipeline_config['preprocessor'] = key
-    result = selector.fit(hyperparameter_config, pipeline_config, X, y, train_indices, None)
+        for key, value in preprocessor_dict.items():
+            selector = pipeline[PreprocessorSelector().get_name()]
+            selector.add_preprocessor(key, value)
+            hyperparameter_config = full_hyperparameter_config.sample_configuration()
+            
+            pipeline_config = dict()
+            pipeline_config['preprocessor'] = key
+            result = selector.fit(hyperparameter_config, pipeline_config, X, y, train_indices, None)
 
-    print(result['preprocessor'])
-    self.assertEqual(result['X'].shape[1], 2)
-    self.assertEqual(issparse(result['X']), False)
+            print(result['preprocessor'])
+            self.assertEqual(result['X'].shape[1], 2)
+            self.assertEqual(issparse(result['X']), False)
 
