@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from numpy.testing import assert_array_equal
 from autoPyTorch.components.preprocessing.feature_preprocessing import *
 from ConfigSpace.read_and_write import json
-from sklearn.decomposition import TruncatedSVD
+# from sklearn.decomposition import TruncatedSVD
 from scipy.sparse import issparse
 
 class TestPreprocessorSelector(unittest.TestCase):
@@ -25,12 +25,12 @@ class TestPreprocessorSelector(unittest.TestCase):
         valid_indices = np.array([1, 2, 5])
         y = np.array([1, 0, 0, 1, 0, 1])
         preprocessor_dict = {
-            # "fast_ica": FastICA, 
-            # "kernel_pca":KernelPCA, 
-            # "kitchen_sinks":RandomKitchenSinks,
-            # "nystroem":Nystroem, 
-            # "polynomial_features":PolynomialFeatures,
-            # "power_transformer":PowerTransformer, 
+            "fast_ica": FastICA, 
+            "kernel_pca":KernelPCA, 
+            "kitchen_sinks":RandomKitchenSinks,
+            "nystroem":Nystroem, 
+            "polynomial_features":PolynomialFeatures,
+            "power_transformer":PowerTransformer, 
             "truncated_svd":TruncatedSVD
             }
         pipeline = Pipeline([
@@ -43,13 +43,12 @@ class TestPreprocessorSelector(unittest.TestCase):
         for key, value in preprocessor_dict.items():
             selector = pipeline[PreprocessorSelector().get_name()]
             selector.add_preprocessor(key, value)
-            hyperparameter_config = full_hyperparameter_config.sample_configuration()
-            
-            pipeline_config = dict()
-            pipeline_config['preprocessor'] = key
-            result = selector.fit(hyperparameter_config, pipeline_config, X, y, train_indices, None)
 
-            print(result['preprocessor'])
-            self.assertEqual(result['X'].shape[1], 2)
-            self.assertEqual(issparse(result['X']), False)
+        hyperparameter_config = full_hyperparameter_config.sample_configuration()
+
+        pipeline_config = dict()
+        result = selector.fit(hyperparameter_config, pipeline_config, X, y, train_indices, None)
+
+        self.assertEqual(result['X'].shape[1], 2)
+        self.assertEqual(issparse(result['X']), False)
 
