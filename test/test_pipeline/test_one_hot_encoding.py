@@ -9,7 +9,7 @@ from autoPyTorch.utils.configspace_wrapper import ConfigWrapper
 from autoPyTorch.pipeline.nodes.create_dataset_info import CreateDatasetInfo, DataSetInfo
 from sklearn.model_selection import train_test_split
 from numpy.testing import assert_array_equal
-
+import scipy 
 import json
 
     

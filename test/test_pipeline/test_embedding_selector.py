@@ -8,7 +8,6 @@ from autoPyTorch.pipeline.base.pipeline import Pipeline
 from autoPyTorch.utils.configspace_wrapper import ConfigWrapper
 from autoPyTorch.pipeline.nodes.create_dataset_info import CreateDatasetInfo
 from autoPyTorch.components.networks.feature import LearnedEntityEmbedding
-from sklearn.model_selection import train_test_split
 import json
 
 
@@ -40,7 +39,7 @@ class TestEmbeddingSelector(unittest.TestCase):
             pipeline_config[option.name] = option.default 
 
         hyperparameter_config = selector.get_hyperparameter_search_space(pipeline_config).sample_configuration()
-        hyperparameter_config['embedding'] = 'learned'
+        hyperparameter_config['embeddings'] = 'learned'
         
         result = selector.fit(hyperparameter_config, pipeline_config, X, False)
         self.assertEqual(type(result['embedding']), type(nn.Sequential()))
