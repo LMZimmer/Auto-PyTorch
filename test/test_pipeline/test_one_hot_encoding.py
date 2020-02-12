@@ -46,6 +46,7 @@ class TestOneHotEncoding(unittest.TestCase):
         info.x_max_value = X_train[:, :-1].astype(dtype=np.float32).max()
         result = encoder.fit(pipeline_config, X, y, info)
         _, x_encoder, _, y_encoder, info = result.values()
+        print(type(x_encoder))
         X_transformed, x_encoder = encoder.predict(pipeline_config=pipeline_config,X=X, one_hot_encoder=x_encoder).values()
         categories = x_encoder.categories_[0].tolist()
         expected_categories = ['female', 'male', 'unknown']
@@ -83,9 +84,9 @@ class TestOneHotEncoding(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             result = encoder.fit(pipeline_config, X, y, info)
             print(e.exception)
-        _, x_encoder, _, y_encoder, info = result.values()
-        X_transformed, x_encoder = encoder.predict(pipeline_config, X, x_encoder).values()
-        categories = x_encoder.categories_[0].tolist()
-        expected_categories = ['female', 'male', 'unknown']
-        self.assertCountEqual(categories, expected_categories)
+            _, x_encoder, _, y_encoder, info = result.values()
+            X_transformed, x_encoder = encoder.predict(pipeline_config, X, x_encoder).values()
+            categories = x_encoder.categories_[0].tolist()
+            expected_categories = ['female', 'male', 'unknown']
+            self.assertCountEqual(categories, expected_categories)
 

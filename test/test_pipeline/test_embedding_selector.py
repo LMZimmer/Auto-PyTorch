@@ -8,7 +8,7 @@ from autoPyTorch.pipeline.base.pipeline import Pipeline
 from autoPyTorch.utils.configspace_wrapper import ConfigWrapper
 from autoPyTorch.pipeline.nodes.create_dataset_info import CreateDatasetInfo, DataSetInfo
 from autoPyTorch.pipeline.nodes.one_hot_encoding import OneHotEncoding
-from autoPyTorch.components.networks.feature import NoEmbedding
+from autoPyTorch.components.networks.feature import LearnedEntityEmbedding, NoEmbedding
 import json
 from sklearn.model_selection import train_test_split
 import scipy 

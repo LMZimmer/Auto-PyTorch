@@ -35,22 +35,15 @@ class TestCreateDatasetInfo(unittest.TestCase):
         pipeline_config['dataset_name'] = 'CustomDataset'
         creater = pipeline[CreateDatasetInfo().get_name()]
         with self.assertRaises(TypeError) as tm:
+            print(tm.exception)
             result = creater.predict(pipeline_config, X_train, y_train, X_test, y_test)
+            info = result['dataset_info']
 
-        exception = tm.exception
-        print(exception)
-        # try:
-        #     result = creater.predict(pipeline_config, X_train, y_train, X_test, y_test)
-        # except TypeError:
-        #     print("cannot perform reduce with flexible type")
+            self.assertEqual(info.name, pipeline_config['dataset_name'])
+            self.assertEqual(info.x_shape, X_train.shape)
+            self.assertEqual(info.y_shape, y_train.shape)
 
-        info = result['dataset_info']
-
-        self.assertEqual(info.name, pipeline_config['dataset_name'])
-        self.assertEqual(info.x_shape, X_train.shape)
-        self.assertEqual(info.y_shape, y_train.shape)
-
-        non_category = [not a for a in pipeline_config['categorical_features']]
-        X_non_categorical = np.apply_along_axis(lambda x: x[non_category], 1, X_train).astype(dtype=np.float32)
-        self.assertEqual(info.x_min_value, X_non_categorical.min())
-        self.assertEqual(info.x_max_value, X_non_categorical.max())
+            non_category = [not a for a in pipeline_config['categorical_features']]
+            X_non_categorical = np.apply_along_axis(lambda x: x[non_category], 1, X_train).astype(dtype=np.float32)
+            self.assertEqual(info.x_min_value, X_non_categorical.min())
+            self.assertEqual(info.x_max_value, X_non_categorical.max())
