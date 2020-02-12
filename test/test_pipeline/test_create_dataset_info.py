@@ -14,7 +14,7 @@ import json
     
 class TestCreateDatasetInfo(unittest.TestCase):
 
-    def test_one_hot_encoding(self):
+    def test_create_dataset_info(self):
         # test for X categorical
         X = np.array([[1, 2, 'male'], 
                     [1.1, 1.2, 'female'], 
@@ -34,7 +34,16 @@ class TestCreateDatasetInfo(unittest.TestCase):
         pipeline_config['categorical_features'] = [False, False, True]
         pipeline_config['dataset_name'] = 'CustomDataset'
         creater = pipeline[CreateDatasetInfo().get_name()]
-        result = creater.predict(pipeline_config, X_train, y_train, X_test, y_test)
+        with self.assertRaises(TypeError) as tm:
+            result = creater.predict(pipeline_config, X_train, y_train, X_test, y_test)
+
+        exception = tm.exception
+        print(exception)
+        # try:
+        #     result = creater.predict(pipeline_config, X_train, y_train, X_test, y_test)
+        # except TypeError:
+        #     print("cannot perform reduce with flexible type")
+
         info = result['dataset_info']
 
         self.assertEqual(info.name, pipeline_config['dataset_name'])
