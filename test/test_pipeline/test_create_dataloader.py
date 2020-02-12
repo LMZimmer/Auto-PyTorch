@@ -25,6 +25,8 @@ class TestCreateDataLoader(unittest.TestCase):
         y = np.array([1, 0, 0, 1, 0, 1])
         import os
         cwd = os.getcwd()
+        print(os.listdir(cwd))
+        # print("Current Working Directory", cwd)
         with open(cwd + './test/test_pipeline/hyperparameter_config.json', 'r') as fh:
             json_string = fh.read()     
             full_hyperparameter_config = json.read(json_string)
