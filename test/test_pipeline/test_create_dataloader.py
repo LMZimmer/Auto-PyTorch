@@ -23,7 +23,9 @@ class TestCreateDataLoader(unittest.TestCase):
         train_indices = np.array([0, 3, 4])
         valid_indices = np.array([1, 2, 5])
         y = np.array([1, 0, 0, 1, 0, 1])
-        with open('./test/test_pipeline/hyperparameter_config.json', 'r') as fh:
+        import os
+        cwd = os.getcwd()
+        with open(cwd + './test/test_pipeline/hyperparameter_config.json', 'r') as fh:
             json_string = fh.read()     
             full_hyperparameter_config = json.read(json_string)
 
