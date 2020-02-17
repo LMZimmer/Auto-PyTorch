@@ -33,7 +33,7 @@ class TestCreateDatasetInfo(unittest.TestCase):
         pipeline_config = dict()
         pipeline_config['categorical_features'] = [False, False, True]
         pipeline_config['dataset_name'] = 'CustomDataset'
-        creater = pipeline[CreateDatasetInfo().get_name()]
+        creater = pipeline[CreateDatasetInfo().get_name()]   
         with self.assertRaises(TypeError) as tm:
             result = creater.predict(pipeline_config, X_train, y_train, X_test, y_test)
             info = result['dataset_info']
