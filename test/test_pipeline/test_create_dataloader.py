@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import time
+import os  
 
 from autoPyTorch.pipeline.nodes.create_dataloader import CreateDataLoader
 from autoPyTorch.pipeline.base.pipeline import Pipeline
@@ -23,8 +24,8 @@ class TestCreateDataLoader(unittest.TestCase):
         train_indices = np.array([0, 3, 4])
         valid_indices = np.array([1, 2, 5])
         y = np.array([1, 0, 0, 1, 0, 1])
-
-        with open('./test_pipeline/hyperparameter_config.json', 'r') as fh:
+        print(os.path.abspath(os.path.dirname(__file__)))
+        with open('test/test_pipeline/hyperparameter_config.json', 'r') as fh:
             json_string = fh.read()     
             full_hyperparameter_config = json.read(json_string)
 
