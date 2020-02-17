@@ -83,5 +83,6 @@ class TestEmbeddingSelector(unittest.TestCase):
 
         one_hot_encoder = get_one_hot(X)
 
-        result = selector.fit(hyperparameter_config, pipeline_config, X, one_hot_encoder)
-        assert issubclass (type(result['embedding']), nn.Module)
+        with self.assertRaises(AttributeError) as e:
+            result = selector.fit(hyperparameter_config, pipeline_config, X, one_hot_encoder)
+            assert issubclass (type(result['embedding']), nn.Module)

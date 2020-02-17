@@ -84,9 +84,9 @@ class TestOneHotEncoding(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             result = encoder.fit(pipeline_config, X, y, info)
             _, x_encoder, _, y_encoder, info = result.values()
-            with self.assertRaises(AttributeError) as f:
-                X_transformed, x_encoder = encoder.predict(pipeline_config, X, x_encoder).values()
-                categories = x_encoder.categories_[0].tolist()
-                expected_categories = ['female', 'male', 'unknown']
-                self.assertCountEqual(categories, expected_categories)
+        with self.assertRaises(AttributeError) as f:
+            X_transformed, x_encoder = encoder.predict(pipeline_config, X, x_encoder).values()
+            categories = x_encoder.categories_[0].tolist()
+            expected_categories = ['female', 'male', 'unknown']
+            self.assertCountEqual(categories, expected_categories)
 
