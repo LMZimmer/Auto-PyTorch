@@ -36,7 +36,8 @@ class TestPreprocessorSelector(unittest.TestCase):
         pipeline = Pipeline([
             PreprocessorSelector()
         ])            
-        with open('/test_pipeline/hyperparameter_config.json', 'r') as fh:
+        path_prefix = os.path.abspath(os.path.dirname(__file__)))
+        with open(os.path.join(path_prefix + 'hyperparameter_config.json', 'r') as fh:
             json_string = fh.read()     
             full_hyperparameter_config = json.read(json_string)
 
