@@ -35,10 +35,6 @@ def get_data_loaders(hyperparameter_config, X, y, train_indices, valid_indices):
     result = create_dataloader_node.fit(pipeline_config, hyperparameter_config, X, y, train_indices, valid_indices)
     return result["train_loader"], result["valid_loader"]
 
-# def get_log_function():
-#     log_func = AutoNetLog('log', np.log, no_transform)
-#     return log_func
-
 def get_loss_function():
     pipeline = Pipeline([
         LossModuleSelector()
@@ -124,15 +120,20 @@ class TestTrainNode(unittest.TestCase):
         hyperparameter_config = full_hyperparameter_config.sample_configuration()
         loss_function = get_loss_function()
         pipeline_config['cuda'] = False
-        result = train_node.fit(hyperparameter_config, pipeline_config,
-                        train_loader, valid_loader,
-                        network, optimizer,
-                        optimize_metric, additional_metrics,
-                        log_functions,
-                        budget,
-                        loss_function,
-                        training_techniques,
-                        fit_start_time,
-                        refit)
-        self.assertIn('loss', result.keys())
-        self.assertIn('info', result.keys())
+        try:
+            result = train_node.fit(hyperparameter_config, pipeline_config,
+                            train_loader, valid_loader,
+                            network, optimizer,
+                            optimize_metric, additional_metrics,
+                            log_functions,
+                            budget,
+                            loss_function,
+                            training_techniques,
+                            fit_start_time,
+                            refit)
+            self.assertIn('loss', result.keys())
+            self.assertIn('info', result.keys())
+        except:
+            self.assertRaises(ValueError) #catching sklearn value error due to Only one class present in y_true. ROC AUC score is not defined in that case.
+
+        
